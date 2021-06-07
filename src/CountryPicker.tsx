@@ -16,7 +16,6 @@ import { useContext } from './CountryContext'
 import { CountryList } from './CountryList'
 
 interface State {
-  visible: boolean
   countries: Country[]
   filter?: string
   filterFocus?: boolean
@@ -112,28 +111,23 @@ export const CountryPicker = (props: CountryPickerProps) => {
     preferredCountries
   } = props
   const [state, setState] = useState<State>({
-    visible: props.visible || false,
     countries: [],
     filter: '',
     filterFocus: false,
   })
   const { translation, getCountriesAsync } = useContext()
-  const { visible, filter, countries, filterFocus } = state
+  const { filter, countries, filterFocus } = state
+  const { visible } = props
 
-  useEffect(() => {
-    if (state.visible !== props.visible) {
-      setState({ ...state, visible: props.visible || false })
-    }
-  }, [props.visible])
 
   const onOpen = () => {
-    setState({ ...state, visible: true })
+    setState({ ...state })
     if (handleOpen) {
       handleOpen()
     }
   }
   const onClose = () => {
-    setState({ ...state, filter: '', visible: false })
+    setState({ ...state, filter: '' })
     if (handleClose) {
       handleClose()
     }
